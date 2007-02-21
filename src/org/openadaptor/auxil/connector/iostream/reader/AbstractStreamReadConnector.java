@@ -35,6 +35,16 @@ import org.openadaptor.core.IReadConnector;
 import org.openadaptor.core.exception.ConnectionException;
 import org.openadaptor.core.lifecycle.LifecycleComponent;
 
+/**
+ * Base implementation for Read Connector that read from java.io.InputStream.
+ * This implements IReadConnector by delegating to a {@link IDataReader} which
+ * does the work of reading discrete data from the stream. Subclasses of this
+ * base class need to implement {@link #getInputStream}. This class also
+ * implements utiliy method that the subclass may need.
+ * 
+ * @author perryj
+ * @see IDataReader
+ */
 public abstract class AbstractStreamReadConnector extends LifecycleComponent implements IReadConnector {
 
   private InputStream inputStream;
@@ -44,8 +54,6 @@ public abstract class AbstractStreamReadConnector extends LifecycleComponent imp
   private boolean isDry = false;
 
   private int batchSize = 1;
-
-  protected String encoding;
 
   public void setBatchSize(int batchSize) {
     this.batchSize = batchSize;
@@ -57,14 +65,6 @@ public abstract class AbstractStreamReadConnector extends LifecycleComponent imp
 
   protected AbstractStreamReadConnector(String id) {
     super(id);
-  }
-
-  protected String getEncoding() {
-    return encoding;
-  }
-
-  public void setEncoding(String encoding) {
-    this.encoding = encoding;
   }
 
   public void setDataReader(final IDataReader dataReader) {

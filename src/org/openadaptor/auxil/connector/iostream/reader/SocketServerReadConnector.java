@@ -37,16 +37,23 @@ import org.apache.commons.logging.LogFactory;
 import org.openadaptor.auxil.connector.iostream.reader.string.LineReader;
 
 /**
- * Simple StreamReader to listen on a socket, and provide a StreamReader based on the first connection that receives.
- * <p>
- * If the streamReader is read before any incoming connection is received, then it blocks until something connects.
+ * Read Connector that accepts a single socket connection, after this is made
+ * it reads data from the InputStream associated with the socket.
  * 
- * Note: In it's current form it is very primitive.
- * 
+ * Defaults dataReader to {@link LineReader}
+ *
  * @author OA3 Eddy Higgins
  */
 
 public class SocketServerReadConnector extends AbstractStreamReadConnector {
+
+  private static final Log log = LogFactory.getLog(SocketServerReadConnector.class);
+
+  private int port;
+
+  private ServerSocket serverSocket;
+  
+  private String clientInfo;
 
   protected SocketServerReadConnector() {
     super();
@@ -57,14 +64,6 @@ public class SocketServerReadConnector extends AbstractStreamReadConnector {
     super(id);
     setDataReader(new LineReader());
   }
-
-  private static final Log log = LogFactory.getLog(SocketServerReadConnector.class);
-
-  private int port;
-
-  private ServerSocket serverSocket;
-  
-  private String clientInfo;
 
   public void setPort(int port) {
     this.port = port;
