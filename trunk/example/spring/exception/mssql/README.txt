@@ -1,1 +1,0 @@
-For MS-SQL use Sybase schema and Sybase exception examples.
